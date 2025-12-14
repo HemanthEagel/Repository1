@@ -7,7 +7,7 @@ jobs:
   job1:
     name: Print variables
     runs-on: ubuntu-latest
-    if: contains(fromJson('["HemanthEagel"]'), github.actor)
+    if: !contains(fromJson('["HemanthEagel"]'), github.actor)
 
     steps:
       - name: Print repository variables
