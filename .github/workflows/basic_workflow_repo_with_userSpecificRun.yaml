@@ -7,14 +7,14 @@ jobs:
   job1:
     name: Print variables
     runs-on: ubuntu-latest
-    
+    if: contains(fromJson('["HemanthEagel"]'), github.actor)
 
     steps:
       - name: Print repository variables
         run: |
           echo "APP_NAME = ${{ vars.APP_NAME }}"
           echo "ENV_NAME = ${{ vars.ENV_NAME }}"
-          echo "user = $github.actor "
+          echo "Triggered by ${{ github.actor }}"
 
       - name: Try printing secret (will be masked)
         run: |
