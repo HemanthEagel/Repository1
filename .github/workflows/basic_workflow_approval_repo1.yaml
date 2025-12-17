@@ -6,7 +6,7 @@ on:
     environment:
      description: "environment options"
       default: "test_env"
-      type: environemnt
+      type: environment
       required: true
             
 jobs:
