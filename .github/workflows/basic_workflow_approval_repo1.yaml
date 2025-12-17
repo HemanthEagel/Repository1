@@ -2,12 +2,13 @@ name: Basic Variables Demo approval test
 
 on:
   workflow_dispatch:
-   inputs:
-    environment:
-     description: "environment options"
-      default: "test_env"
-      type: environment
-      required: true
+    inputs:
+      environment:
+       description: "environment options"
+       default: "test_env"
+       type: environment
+       required: true
+      
             
 jobs:
   job1:
