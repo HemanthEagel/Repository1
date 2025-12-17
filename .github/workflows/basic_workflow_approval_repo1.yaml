@@ -9,7 +9,6 @@ on:
       type: environemnt
       required: true
             
-
 jobs:
   job1:
     name: Print variables
