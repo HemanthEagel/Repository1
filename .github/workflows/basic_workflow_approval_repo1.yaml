@@ -39,6 +39,7 @@ jobs:
   job3:
     name: job3 based on test2 environemnt
     runs-on: ubuntu-latest
+    needs: job2
     environment: "test_env"
     steps:
       - name: Print repository variables
