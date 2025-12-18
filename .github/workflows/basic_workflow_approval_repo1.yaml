@@ -50,6 +50,7 @@ jobs:
   job4:
     name: job4 based on test_env environment
     runs-on: ubuntu-latest
+    needs: job2
     environment: "${{github.event.inputs.environment}}"
     steps:
       - name: Print repository variables
