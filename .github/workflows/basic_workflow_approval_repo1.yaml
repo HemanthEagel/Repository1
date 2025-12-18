@@ -29,6 +29,7 @@ jobs:
     name: Job2 started
     runs-on: ubuntu-latest
     needs: job1
+    environment: "${{github.event.inputs.environment}}"
          
     steps:
       - name: Job2 message
