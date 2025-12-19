@@ -12,6 +12,10 @@ on:
           - stage
           - prod
 
+      env:
+       CLUSTER_NAME: "aks-lgth-${{ github.event.inputs.environment }}"
+       RESOURCE_GROUP: "rg-lgt-${{ github.event.inputs.environment }}"
+
 jobs:
   job1:
     name: Resolve environment
@@ -30,6 +34,7 @@ jobs:
           echo "direct from secret the environment variable = ${{ vars.STAGE }}"
           echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
           echo "direct from secret the environment variable = ${{ vars.PROD }}"
+          echo "direct from secret the environment variable = ${{ CLUSTER_NAME }}"
           
           if [ "${{ inputs.action }}" = "prod" ]; then
             echo "action=prod2" >> $GITHUB_OUTPUT
@@ -51,7 +56,7 @@ jobs:
           echo " direct from secret the environment variable = ${{ vars.DEV }}"
           echo "direct from secret the environment variable = ${{ vars.STAGE }}"
           echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
+          echo "direct from secret the environment variable = ${{ CLUSTER_NAME }}"
       
       - name: Try printing secret (will be masked)
         run: |
