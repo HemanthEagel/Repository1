@@ -22,6 +22,8 @@ jobs:
 
     steps:
       - name: Decide environment
+      - run: echo "Input action is the = ${{ inputs.action }}"
+          
         id: set-env
         run: |
           echo " direct from secret the environment variable = ${{ vars.dev }}"
@@ -33,7 +35,9 @@ jobs:
             echo "target_env=prod2" >> $GITHUB_OUTPUT
           else
             echo "target_env=${{ inputs.action }}" >> $GITHUB_OUTPUT
+            echo "target_env is = ${{ inputs.action }}"
           fi
+          echo "target_env is $env_value"
 
   job2:
     name: Print variables
