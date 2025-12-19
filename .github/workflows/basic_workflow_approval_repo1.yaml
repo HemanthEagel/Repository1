@@ -13,7 +13,7 @@ on:
           - prod
 
 jobs:
-  resolve-env:
+  job1:
     name: Resolve environment
     runs-on: ubuntu-latest
     environment: ${{ inputs.action }}
@@ -43,7 +43,7 @@ jobs:
   job2:
     name: Print variables
     runs-on: ubuntu-latest
-    needs: resolve-env
+    needs: [resolve-env, job1]
     environment: ${{ needs.resolve-env.outputs.target_env }}
     steps:
       - name: Print repository variables
@@ -61,7 +61,7 @@ jobs:
   job3:
     name: job3 we given 
     runs-on: ubuntu-latest
-    needs: job2
+    needs: [resolve-env, job2]
     environment: ${{ needs.resolve-env.outputs.target_env }}
     steps:
       - name: Print repository variables
@@ -75,5 +75,20 @@ jobs:
           echo "the environment variable = ${{ vars.prod2 }}"
           echo "it is based on which enviroent this job is running = ${{ vars.env }}"
 
-          
+  job4:
+    name: job4 we given 
+    runs-on: ubuntu-latest
+    needs: [resolve-env, job3]
+    environment: ${{ needs.resolve-env.outputs.target_env }}
+    steps:
+      - name: Print repository variables
+        run: |
+          echo " direct from secret the environment variable = ${{ vars.dev }}"
+          echo "direct from secret the environment variable = ${{ vars.stage }}"
+          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
+          echo "direct from secret the environment variable = ${{ vars.prod }}"
+      - name: Try printing secret (will be masked)
+        run: |
+          echo "the environment variable = ${{ vars.prod2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.env }}"      
 
