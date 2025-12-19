@@ -11,10 +11,10 @@ on:
           - dev
           - stage
           - prod
-
-      env:
-       CLUSTER_NAME: "aks-lgth-${{ github.event.inputs.environment }}"
-       RESOURCE_GROUP: "rg-lgt-${{ github.event.inputs.environment }}"
+    
+  env:
+    CLUSTER_NAME: "aks-lgth-${{ github.event.inputs.action }}"
+    RESOURCE_GROUP: "rg-lgt-${{ github.event.inputs.action }}"
 
 jobs:
   job1:
