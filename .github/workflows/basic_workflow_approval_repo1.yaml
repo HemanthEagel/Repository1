@@ -58,8 +58,8 @@ jobs:
   job3:
     name: job3 we given 
     runs-on: ubuntu-latest
-    needs: [job1, job2]
-    environment: ${{ job2}}
+    needs: [job2]
+    environment: ${{ inputs.action }}
     steps:
       - name: Print repository variables
         run: |
