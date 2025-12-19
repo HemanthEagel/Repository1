@@ -21,9 +21,7 @@ jobs:
   job1:
     name: Resolve environment
     runs-on: ubuntu-latest
-    environment: ${{ env.environment }}
-    outputs:
-      action: ${{ steps.set-env.outputs.action }}
+    environment: ${{ inputs.action == 'prod' && 'prod2' || inputs.action }}
 
     steps:
       - name: Decide environment
@@ -37,14 +35,7 @@ jobs:
           echo "direct from secret the environment variable = ${{ vars.PROD }}"
           echo "direct from secret the environment variable = ${{ env.CLUSTER_NAME }}"
           
-          if [ "${{ inputs.action }}" = "prod" ]; then
-            echo "action=prod2" >> $GITHUB_OUTPUT
-            echo "target environment is prod"
-          else
-            echo "action=${{ inputs.action }}" >> $GITHUB_OUTPUT
-            echo "action is = ${{ inputs.action }}"
-          fi
-          echo "target_env is $target_env"
+         
 
   job2:
     name: Print variables
