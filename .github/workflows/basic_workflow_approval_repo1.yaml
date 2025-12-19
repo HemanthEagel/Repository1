@@ -22,10 +22,10 @@ jobs:
 
     steps:
       - name: Decide environment
-      - run: echo "Input action is the = ${{ inputs.action }}"
-          
+             
         id: set-env
         run: |
+          echo "Input action is the = ${{ inputs.action }}"
           echo " direct from secret the environment variable = ${{ vars.dev }}"
           echo "direct from secret the environment variable = ${{ vars.stage }}"
           echo "direct from secret the environment variable = ${{ vars.prod2 }}"
