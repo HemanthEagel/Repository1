@@ -38,11 +38,25 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
-          echo "APP_NAME = ${{ vars.APP_NAME }}"
-          echo "ENV_NAME = ${{ vars.ENV_NAME }}"
-
+      
       - name: Try printing secret (will be masked)
         run: |
-          echo "DB_PASSWORD = ${{ vars.prod2 }}"
-          echo "secret value it is APP_NAME = ${{ vars.env }}"
+          echo "the environment variable = ${{ vars.prod2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.env }}"
+
+  job3:
+    name: job3 we given 
+    runs-on: ubuntu-latest
+    needs: job2
+    environment: ${{ needs.resolve-env.outputs.target_env }}
+    steps:
+      - name: Print repository variables
+        run: |
+      
+      - name: Try printing secret (will be masked)
+        run: |
+          echo "the environment variable = ${{ vars.prod2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.env }}"
+
+          
 
