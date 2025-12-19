@@ -3,22 +3,38 @@ name: Basic Variables Demo approval test
 on:
   workflow_dispatch:
     inputs:
-                             
-       action:
-         description: " environemtn selection"
-         required: true
-         type: choice
-         options:
-           - dev
-           - stage
-           - prod
+      action:
+        description: "Environment selection"
+        required: true
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
 
-            
 jobs:
-  job1:
+  resolve-env:
+    name: Resolve environment
+    runs-on: ubuntu-latest
+
+    outputs:
+      target_env: ${{ steps.set-env.outputs.target_env }}
+
+    steps:
+      - name: Decide environment
+        id: set-env
+        run: |
+          if [ "${{ inputs.action }}" = "prod" ]; then
+            echo "target_env=prod2" >> $GITHUB_OUTPUT
+          else
+            echo "target_env=${{ inputs.action }}" >> $GITHUB_OUTPUT
+          fi
+
+  job2:
     name: Print variables
     runs-on: ubuntu-latest
-    environment: "${{github.event.inputs.environment}}"
+    needs: resolve-env
+    environment: ${{ needs.resolve-env.outputs.target_env }}
     steps:
       - name: Print repository variables
         run: |
@@ -27,38 +43,6 @@ jobs:
 
       - name: Try printing secret (will be masked)
         run: |
-          echo "DB_PASSWORD = ${{ secrets.DB_PASSWORD }}"
-          echo "secret value it is APP_NAME = ${{ vars.APP_NAME }}"
-  job2:
-    name: Job2 started
-    runs-on: ubuntu-latest
-    needs: job1
-    environment: "${{github.event.inputs.environment}}"
-         
-    steps:
-      - name: Job2 message
-        run: |
-         echo "Job2 has started successfully"
+          echo "DB_PASSWORD = ${{ vars.prod2 }}"
+          echo "secret value it is APP_NAME = ${{ vars.env }}"
 
-  job3:
-    name: job3 based on test2 environemnt
-    runs-on: ubuntu-latest
-    needs: job2
-    environment: "test_env"
-    steps:
-      - name: Print repository variables
-        run: |
-          echo "APP_NAME = ${{ vars.APP_NAME }}"
-          echo "ENV_NAME = ${{ vars.ENV_NAME }}"
-     
-  job4:
-    name: job4 based on test_env environment
-    runs-on: ubuntu-latest
-    needs: job2
-    environment: "${{github.event.inputs.environment}}"
-    steps:
-      - name: Print repository variables
-        run: |
-          echo "APP_NAME = ${{ vars.APP_NAME }}"
-          echo "ENV_NAME = ${{ vars.ENV_NAME }}"   
-   
