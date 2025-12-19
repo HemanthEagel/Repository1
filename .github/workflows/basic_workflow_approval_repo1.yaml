@@ -13,8 +13,8 @@ on:
           - prod
     
 env:
-  CLUSTER_NAME: "aks-lgth-${{ github.event.inputs.action }}"
-  RESOURCE_GROUP: "rg-lgt-${{ github.event.inputs.action }}"
+  CLUSTER_NAME: "aks-lgth-${{ inputs.action }}"
+  RESOURCE_GROUP: "rg-lgt-${{ inputs.action }}"
 
 jobs:
   job1:
