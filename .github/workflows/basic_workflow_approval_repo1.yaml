@@ -8,15 +8,15 @@ on:
        default: "test_env"
        type: environment
        required: true
-     
-      action:
-        description: " environemtn selection"
-        required: true
-        type: choice
-        options:
-          - dev
-          -stage
-          - prod
+                           
+       action:
+         description: " environemtn selection"
+         required: true
+         type: choice
+         options:
+           - dev
+           - stage
+           - prod
 
             
 jobs:
