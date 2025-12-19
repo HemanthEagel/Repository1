@@ -13,7 +13,7 @@ on:
           - prod
     
 env:
-  CLUSTER_NAME: "aks-lgth-${{ inputs.action }}"
+  CLUSTER_NAME: aks-lgth-${{ inputs.action == 'prod' && 'prod2' || inputs.action }}
   RESOURCE_GROUP: "rg-lgt-${{ inputs.action }}"
 
 jobs:
