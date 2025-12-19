@@ -26,10 +26,10 @@ jobs:
         id: set-env
         run: |
           echo "Input action is the = ${{ inputs.action }}"
-          echo " direct from secret the environment variable = ${{ vars.dev }}"
-          echo "direct from secret the environment variable = ${{ vars.stage }}"
-          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
-          echo "direct from secret the environment variable = ${{ vars.prod }}"
+          echo " direct from secret the environment variable = ${{ vars.DEV }}"
+          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD }}"
           
           if [ "${{ inputs.action }}" = "prod" ]; then
             echo "target_env=prod2" >> $GITHUB_OUTPUT
@@ -48,15 +48,15 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
-          echo " direct from secret the environment variable = ${{ vars.dev }}"
-          echo "direct from secret the environment variable = ${{ vars.stage }}"
-          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
-          echo "direct from secret the environment variable = ${{ vars.prod }}"
+          echo " direct from secret the environment variable = ${{ vars.DEV }}"
+          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD }}"
       
       - name: Try printing secret (will be masked)
         run: |
-          echo "the environment variable = ${{ vars.prod2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.env }}"
+          echo "the environment variable = ${{ vars.PROD2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
 
   job3:
     name: job3 we given 
@@ -66,14 +66,14 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
-          echo " direct from secret the environment variable = ${{ vars.dev }}"
-          echo "direct from secret the environment variable = ${{ vars.stage }}"
-          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
-          echo "direct from secret the environment variable = ${{ vars.prod }}"
+          echo " direct from secret the environment variable = ${{ vars.DEV }}"
+          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD }}"
       - name: Try printing secret (will be masked)
         run: |
-          echo "the environment variable = ${{ vars.prod2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.env }}"
+          echo "the environment variable = ${{ vars.PROD2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
 
   job4:
     name: job4 we given 
@@ -83,12 +83,12 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
-          echo " direct from secret the environment variable = ${{ vars.dev }}"
-          echo "direct from secret the environment variable = ${{ vars.stage }}"
-          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
-          echo "direct from secret the environment variable = ${{ vars.prod }}"
+          echo " direct from secret the environment variable = ${{ vars.DEV }}"
+          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD }}"
       - name: Try printing secret (will be masked)
         run: |
-          echo "the environment variable = ${{ vars.prod2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.env }}"      
+          echo "the environment variable = ${{ vars.PROD2 }}"
+          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"      
 
