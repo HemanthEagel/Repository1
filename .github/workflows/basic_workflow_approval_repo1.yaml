@@ -61,7 +61,7 @@ jobs:
   job3:
     name: job3 we given 
     runs-on: ubuntu-latest
-    needs: [job1, job2]
+    needs: [job2]
     environment: ${{ needs.job1.outputs.target_env }}
     steps:
       - name: Print repository variables
@@ -78,7 +78,7 @@ jobs:
   job4:
     name: job4 we given 
     runs-on: ubuntu-latest
-    needs: [job1, job3]
+    needs: [job3]
     environment: ${{ needs.job1.outputs.target_env }}
     steps:
       - name: Print repository variables
