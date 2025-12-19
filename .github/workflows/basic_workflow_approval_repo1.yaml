@@ -33,11 +33,12 @@ jobs:
           
           if [ "${{ inputs.action }}" = "prod" ]; then
             echo "target_env=prod2" >> $GITHUB_OUTPUT
+            echo "target environment is prod"
           else
             echo "target_env=${{ inputs.action }}" >> $GITHUB_OUTPUT
             echo "target_env is = ${{ inputs.action }}"
           fi
-          echo "target_env is $env_value"
+          echo "target_env is $target_env"
 
   job2:
     name: Print variables
