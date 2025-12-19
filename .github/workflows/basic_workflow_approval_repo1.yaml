@@ -24,6 +24,11 @@ jobs:
       - name: Decide environment
         id: set-env
         run: |
+          echo " direct from secret the environment variable = ${{ vars.dev }}"
+          echo "direct from secret the environment variable = ${{ vars.stage }}"
+          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
+          echo "direct from secret the environment variable = ${{ vars.prod }}"
+          
           if [ "${{ inputs.action }}" = "prod" ]; then
             echo "target_env=prod2" >> $GITHUB_OUTPUT
           else
@@ -38,6 +43,10 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
+          echo " direct from secret the environment variable = ${{ vars.dev }}"
+          echo "direct from secret the environment variable = ${{ vars.stage }}"
+          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
+          echo "direct from secret the environment variable = ${{ vars.prod }}"
       
       - name: Try printing secret (will be masked)
         run: |
@@ -52,7 +61,10 @@ jobs:
     steps:
       - name: Print repository variables
         run: |
-      
+          echo " direct from secret the environment variable = ${{ vars.dev }}"
+          echo "direct from secret the environment variable = ${{ vars.stage }}"
+          echo "direct from secret the environment variable = ${{ vars.prod2 }}"
+          echo "direct from secret the environment variable = ${{ vars.prod }}"
       - name: Try printing secret (will be masked)
         run: |
           echo "the environment variable = ${{ vars.prod2 }}"
