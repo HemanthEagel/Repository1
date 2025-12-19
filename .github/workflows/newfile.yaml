@@ -1,4 +1,4 @@
-name: Basic Variables Demo approval test
+name: NEW FILE
 
 on:
   workflow_dispatch:
