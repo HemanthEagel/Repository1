@@ -21,7 +21,7 @@ jobs:
   job1:
     name: Resolve environment
     runs-on: ubuntu-latest
-    environment: ${{ env2 }}
+    environment: ${{ env.env2 }}
     outputs:
       action: ${{ steps.set-env.outputs.action }}
 
