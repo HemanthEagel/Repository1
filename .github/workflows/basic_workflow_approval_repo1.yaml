@@ -16,7 +16,7 @@ jobs:
   resolve-env:
     name: Resolve environment
     runs-on: ubuntu-latest
-
+    environment: ${{ inputs.action }}
     outputs:
       target_env: ${{ steps.set-env.outputs.target_env }}
 
