@@ -28,7 +28,6 @@ jobs:
   
   job2_1:
     needs: job1
-    environment: test   # Still protected
     runs-on: ubuntu-latest
     steps:
       - name: Job2 main step
