@@ -1,0 +1,40 @@
+name: Encrypt/Decrypt Direct Output Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    environment: test
+    outputs:
+      encrypted_secret: ${{ steps.encrypt.outputs.enc_secret }}
+    steps:
+      - name: Encrypt secret
+        id: encrypt
+        run: |
+          PASSPHRASE="TestPass123"
+          
+          # Encrypt secret directly into a variable
+          ENC=$(echo -n "${{ secrets.SECRET1 }}" | openssl enc -aes-256-cbc -base64 -pass pass:$PASSPHRASE)
+          
+          # Save encrypted value to GitHub output
+          echo "enc_secret=$ENC" >> $GITHUB_OUTPUT
+          
+          # Optional: print encoded (safe, masked)
+          echo "Encrypted secret (job1): $ENC"
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decrypt secret from job1
+        run: |
+          PASSPHRASE="TestPass123"
+          ENC="${{ needs.job1.outputs.encrypted_secret }}"
+          
+          # Decrypt
+          DECODED=$(echo "$ENC" | openssl enc -aes-256-cbc -d -base64 -pass pass:$PASSPHRASE)
+          
+          echo "Decoded secret length: ${#DECODED}"
+          # You can now safely use DECODED in job2
