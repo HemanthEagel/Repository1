@@ -38,7 +38,7 @@ jobs:
           REPO_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo "Waiting 10 seconds to ensure Job2 is pending approval..."
-          sleep 20   # wait 10 seconds (adjust as needed)
+          # sleep 20    wait 10 seconds (adjust as needed)
           echo "Job3: Auto-approving environment look for aprovals"
 
           # Get environment ID
@@ -84,7 +84,7 @@ jobs:
           REPO_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo "Waiting 10 seconds to ensure Job2 is pending approval..."
-          sleep 20   # wait 10 seconds (adjust as needed)
+          # sleep 20    wait 10 seconds (adjust as needed)
           echo "Job3: Auto-approving environment look for aprovals"
 
           # Get environment ID
