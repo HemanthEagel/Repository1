@@ -5,20 +5,31 @@ on:
   
 jobs:
   job1:
-    environment: test   # 👈 approval happens here ONLY
+    environment: test
     runs-on: ubuntu-latest
     outputs:
-      my_secret_value: ${{ steps.export.outputs.secret }}
+      var_output: ${{ steps.test.outputs.var_out }}
+      direct_output: ${{ steps.test.outputs.direct_out }}
+
     steps:
-      - name: Use secret
-        id: export
+      - name: Try all secret output methods
+        id: test
         run: |
-          echo "::set-output name=secret::${{ secrets.SECRET1 }}"
+          # Step 1: secret into variable
+          MY_SECRET="${{ secrets.SECRET1 }}"
+
+          # Step 2: variable into GITHUB_OUTPUT
+          echo "var_out=$MY_SECRET" >> $GITHUB_OUTPUT
+
+          # Step 3: direct secret into GITHUB_OUTPUT
+          echo "direct_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
+
 
   job2:
     needs: job1
     runs-on: ubuntu-latest
     steps:
-      - name: Use value from job1
+      - name: Print outputs from job1
         run: |
-          echo "Secret received: ${{ needs.job1.outputs.my_secret_value }}"
+          echo "Variable output: ${{ needs.job1.outputs.var_output }}"
+          echo "Direct output: ${{ needs.job1.outputs.direct_output }}"
