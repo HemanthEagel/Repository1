@@ -1,0 +1,45 @@
+name: Sequential Jobs with Auto-Approve via PAT
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # -----------------------------
+  # Job 1: Manual approval
+  # -----------------------------
+  job1:
+    environment: test   # 🔒 requires manual approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job1 - Manual approval step
+        run: |
+          echo "Job1 running after manual approval"
+
+  # -----------------------------
+  # Job 2: Auto-approve the environment
+  # -----------------------------
+  job2:
+    needs: job1
+    environment: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-approve environment for this workflow run
+        env:
+          REPO_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          echo "Job2: auto-approving environment"
+
+          # Get environment ID
+          ENV_ID=$(curl -s -H "Authorization: Bearer $REPO_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/environments \
+            | jq '.environments[] | select(.name=="test") | .id')
+
+          # Approve all pending deployments for this workflow run
+          curl -s -X POST \
+            -H "Authorization: Bearer $REPO_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"environment_ids\":[$ENV_ID],\"state\":\"approved\",\"comment\":\"Auto-approved via PAT\"}" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/pending_deployments
+
+      - name: Job2 main step
+        run: echo "Job2 running actual tasks"
