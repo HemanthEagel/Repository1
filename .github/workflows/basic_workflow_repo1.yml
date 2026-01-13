@@ -10,6 +10,7 @@ jobs:
     outputs:
       var_output: ${{ steps.test.outputs.var_out }}
       direct_output: ${{ steps.test.outputs.direct_out }}
+     
 
     steps:
       - name: Try all secret output methods
@@ -20,9 +21,17 @@ jobs:
 
           # Step 2: variable into GITHUB_OUTPUT
           echo "var_out=$MY_SECRET" >> $GITHUB_OUTPUT
-
+          
+          # Echo variable inside SAME job
+          echo "job1 variable value: $MY_SECRET"
+          
           # Step 3: direct secret into GITHUB_OUTPUT
           echo "direct_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
+
+           # Echo direct secret inside SAME job
+           echo "job1 direct secret: ${{ secrets.SECRET1 }}"
+
+           
 
 
   job2:
