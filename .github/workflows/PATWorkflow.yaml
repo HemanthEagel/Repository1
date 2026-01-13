@@ -61,6 +61,7 @@ jobs:
 
   job4:
     needs: job2
+    environment: test 
     runs-on: ubuntu-latest
     steps:
      - name: Job2 main step
@@ -68,6 +69,7 @@ jobs:
        
   job5:
     needs: job2
+    environment: test 
     runs-on: ubuntu-latest
     steps:
      - name: Job2 main step
