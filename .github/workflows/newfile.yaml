@@ -1,27 +1,42 @@
-name: Basic Variables Demo copilet
+name: Basic Variables Demo new
 
 on:
   workflow_dispatch:
 
 jobs:
   job1:
+    environment: test
     runs-on: ubuntu-latest
     outputs:
-      var_output: ${{ steps.test.outputs.var_out }}
-      direct_output: ${{ steps.test.outputs.direct_out }}
-
+      encoded_output: ${{ steps.encode.outputs.encoded }}
     steps:
-      - name: Set outputs
-        id: test
+      - name: Encode secret
+        id: encode
         run: |
-          echo "var_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
-          echo "direct_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
+          # Use the real secret for testing (will be stripped in outputs)
+          # For test you can use a fake value like TEST_SECRET="my-secret"
+          TEST_SECRET="${{ secrets.SECRET1 }}"
+          
+          # Encode using base64
+          ENCODED=$(echo -n "$TEST_SECRET" | base64)
+          
+          # Save encoded value to GITHUB_OUTPUT
+          echo "encoded=$ENCODED" >> $GITHUB_OUTPUT
+          
+          # Print encoded value in logs (safe, masked)
+          echo "Encoded secret (job1): $ENCODED"
 
   job2:
     needs: job1
     runs-on: ubuntu-latest
     steps:
-      - name: Print outputs from job1
+      - name: Decode value from job1
         run: |
-          echo "Variable output: ${{ needs.job1.outputs.var_output }}"
-          echo "Direct output: ${{ needs.job1.outputs.direct_output }}"
+          # Get encoded value from job1 output
+          ENCODED="${{ needs.job1.outputs.encoded_output }}"
+          
+          # Decode base64
+          DECODED=$(echo "$ENCODED" | base64 --decode)
+          
+          # Print decoded value (safe only if fake/test secret)
+          echo "Decoded value in job2: $DECODED"
