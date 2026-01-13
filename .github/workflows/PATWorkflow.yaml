@@ -26,20 +26,20 @@ jobs:
       - name: Job2 main step
         run: echo "Job2 running after auto-approval by Job3"
   
-  job2.1:
-  needs: job1
-  environment: test   # Still protected
-  runs-on: ubuntu-latest
-   steps:
-     - name: Job2 main step
-       run: echo "Job2 running after auto-approval by Job3"
+  job2_1:
+    needs: job1
+    environment: test   # Still protected
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job2 main step
+        run: echo "Job2 running after auto-approval by Job3"
 
 
   # -----------------------------
   # Job 3: PAT auto-approve for Job2
   # -----------------------------
   job3:
-    needs: job2.1
+    needs: job2_1
     runs-on: ubuntu-latest
     steps:
       - name: Auto-approve Job2 environment
