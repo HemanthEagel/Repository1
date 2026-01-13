@@ -5,18 +5,16 @@ on:
 
 jobs:
   job1:
-    environment: test
     runs-on: ubuntu-latest
     outputs:
       var_output: ${{ steps.test.outputs.var_out }}
       direct_output: ${{ steps.test.outputs.direct_out }}
 
     steps:
-      - name: Try all secret output methods
+      - name: Set outputs
         id: test
         run: |
-          MY_SECRET="${{ secrets.SECRET1 }}"
-          echo "var_out=$MY_SECRET" >> $GITHUB_OUTPUT
+          echo "var_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
           echo "direct_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
 
   job2:
