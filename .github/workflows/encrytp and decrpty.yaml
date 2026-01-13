@@ -36,5 +36,5 @@ jobs:
           # Decrypt
           DECODED=$(echo "$ENC" | openssl enc -aes-256-cbc -d -base64 -pass pass:$PASSPHRASE)
           
-          echo "Decoded secret length: ${#DECODED}"
+          echo "Decoded secret length: ${DECODED}"
           # You can now safely use DECODED in job2
