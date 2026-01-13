@@ -2,28 +2,23 @@ name: Basic Variables Demo
 
 on:
   workflow_dispatch:
-
+  
 jobs:
   job1:
-    name: Print variables
+    environment: test   # 👈 approval happens here ONLY
     runs-on: ubuntu-latest
-
+    outputs:
+      my_secret_value: ${{ steps.export.outputs.secret }}
     steps:
-      - name: Print repository variables
+      - name: Use secret
+        id: export
         run: |
-          echo "APP_NAME = ${{ vars.APP_NAME }}"
-          echo "ENV_NAME = ${{ vars.ENV_NAME }}"
+          echo "::set-output name=secret::${{ secrets.SECRET1 }}"
 
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "DB_PASSWORD = ${{ secrets.DB_PASSWORD }}"
-          echo "secret value it is APP_NAME = ${{ vars.APP_NAME }}"
   job2:
-    name: Job2 started
-    runs-on: ubuntu-latest
     needs: job1
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Job2 message
+      - name: Use value from job1
         run: |
-          echo "Job2 has started successfully"
+          echo "Secret received: ${{ needs.job1.outputs.my_secret_value }}"
