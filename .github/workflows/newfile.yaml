@@ -1,93 +1,29 @@
-name: NEW FILE
+name: Basic Variables Demo copilet
 
 on:
   workflow_dispatch:
-    inputs:
-      action:
-        description: "Environment selection"
-        required: true
-        type: choice
-        options:
-          - dev
-          - stage
-          - prod
 
 jobs:
   job1:
-    name: Resolve environment
+    environment: test
     runs-on: ubuntu-latest
-    environment: ${{ inputs.action }}
     outputs:
-      target_env: ${{ steps.set-env.outputs.target_env }}
+      var_output: ${{ steps.test.outputs.var_out }}
+      direct_output: ${{ steps.test.outputs.direct_out }}
 
     steps:
-      - name: Decide environment
-             
-        id: set-env
+      - name: Try all secret output methods
+        id: test
         run: |
-          echo "Input action is the = ${{ inputs.action }}"
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-          
-          if [ "${{ inputs.action }}" = "prod" ]; then
-            echo "target_env=prod2" >> $GITHUB_OUTPUT
-            echo "target environment is prod"
-          else
-            echo "target_env=${{ inputs.action }}" >> $GITHUB_OUTPUT
-            echo "target_env is = ${{ inputs.action }}"
-          fi
-          echo "target_env is $target_env"
+          MY_SECRET="${{ secrets.SECRET1 }}"
+          echo "var_out=$MY_SECRET" >> $GITHUB_OUTPUT
+          echo "direct_out=${{ secrets.SECRET1 }}" >> $GITHUB_OUTPUT
 
   job2:
-    name: Print variables
+    needs: job1
     runs-on: ubuntu-latest
-    needs: [job1]
-    environment: ${{ needs.resolve-env.outputs.target_env }}
     steps:
-      - name: Print repository variables
+      - name: Print outputs from job1
         run: |
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-      
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "the environment variable = ${{ vars.PROD2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
-
-  job3:
-    name: job3 we given 
-    runs-on: ubuntu-latest
-    needs: [job2]
-    environment: ${{ needs.resolve-env.outputs.target_env }}
-    steps:
-      - name: Print repository variables
-        run: |
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "the environment variable = ${{ vars.PROD2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
-
-  job4:
-    name: job4 we given 
-    runs-on: ubuntu-latest
-    needs: [job3]
-    environment: ${{ needs.resolve-env.outputs.target_env }}
-    steps:
-      - name: Print repository variables
-        run: |
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "the environment variable = ${{ vars.PROD2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"      
+          echo "Variable output: ${{ needs.job1.outputs.var_output }}"
+          echo "Direct output: ${{ needs.job1.outputs.direct_output }}"
