@@ -15,7 +15,7 @@ jobs:
   print-all-vars-inputs:
     name: "Print Variables and secrets from the dev Environment"
     runs-on: ubuntu-latest
-    environment: dev
+    environment: test
 
     steps:
       - name: "Print Variable and Secret"
