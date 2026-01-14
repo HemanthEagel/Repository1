@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   job1:
-    name: "Run on environment and export outputs"
+    name: Run on environment and export outputs
     runs-on: ubuntu-latest
     environment: test
 
@@ -18,8 +18,7 @@ jobs:
       O_SECRET: ${{ steps.step2.outputs.O_SECRET }}
 
     steps:
-      - name: "Load secret and variable into shell"
-        id: step1
+      - name: Load secret and variable into shell
         run: |
           SECRET_VALUE="${{ secrets.SECRET }}"
           VARIABLE_VALUE="${{ vars.VARIABLE }}"
@@ -27,19 +26,19 @@ jobs:
           echo "Masked secret (bash): ${SECRET_VALUE:0:2}****"
           echo "Variable value: $VARIABLE_VALUE"
 
-      - name: "Store values in GITHUB_OUTPUT"
+      - name: Store values in GITHUB_OUTPUT
         id: step2
         run: |
           echo "O_VAR=${{ vars.VARIABLE }}" >> "$GITHUB_OUTPUT"
           echo "O_SECRET=${{ secrets.SECRET }}" >> "$GITHUB_OUTPUT"
 
   job2:
-    name: "Consume outputs from job1"
+    name: Consume outputs from job1
     runs-on: ubuntu-latest
     needs: job1
 
     steps:
-      - name: "Read outputs from job1"
+      - name: Read outputs from job1
         run: |
           echo "O_VAR=${{ needs.job1.outputs.O_VAR }}"
           echo "O_SECRET=${{ needs.job1.outputs.O_SECRET }}"
