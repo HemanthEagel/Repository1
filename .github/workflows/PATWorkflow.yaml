@@ -18,6 +18,20 @@ jobs:
           
       - name: Print global env variable
         run: |
-          echo "KEY_VALUE = $KEY_VALUE"
-          echo "SECRET value = $SECRET_VALUE"
+          echo "KEY_VALUE in job1= $KEY_VALUE"
+          echo "SECRET value in job1= $SECRET_VALUE"
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Job1 - Manual approval step
+       run: |
+          echo "Job1 running after manual approval"
+          
+     - name: Print global env variable
+       run: |
+          echo "KEY_VALUE in job 2 = $KEY_VALUE"
+          echo "SECRET value in job2 = $SECRET_VALUE"
+    
+     
+    
           
