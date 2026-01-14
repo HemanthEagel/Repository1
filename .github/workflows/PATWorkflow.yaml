@@ -37,18 +37,12 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          echo "Waiting 10 seconds to ensure Job2 is pending approval..."
-          # sleep 20    wait 10 seconds (adjust as needed)
           echo "Job3: Auto-approving environment look for aprovals"
 
           # Get environment ID
           ENV_ID=$(curl -s -H "Authorization: Bearer $REPO_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/environments \
             | jq '.environments[] | select(.name=="test") | .id')
-
-          echo " the workflow id is  direct reference $ENV_ID"
-      
-          echo " the repository is "${{ github.repository }} "
 
           # Approve all pending deployments for this workflow run
           curl -s -X POST \
