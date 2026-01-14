@@ -1,4 +1,4 @@
-name: "Platform CD pass secrets via GITHUB_OUTPUT"
+name: Basic Variables Demo we are testing
 
 on:
   workflow_dispatch:
@@ -7,59 +7,39 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  VARIABLE: "${{ vars.VARIABLE }}"
-
 jobs:
   job1:
-    name: "Run on environment"
-    environment: test
+    name: "Run on environment and export outputs"
     runs-on: ubuntu-latest
+    environment: test
 
     outputs:
       O_VAR: ${{ steps.step2.outputs.O_VAR }}
       O_SECRET: ${{ steps.step2.outputs.O_SECRET }}
-      D_VAR: ${{ steps.step3.outputs.D_VAR }}
-      D_SECRET: ${{ steps.step3.outputs.D_SECRET }}
 
     steps:
-      - name: "Store secret and variable in custom variables"
+      - name: "Load secret and variable into shell"
         id: step1
         run: |
-          C_SECRET="${{ secrets.SECRET }}"
-          C_VARIABLE="${{ vars.VARIABLE }}"
+          SECRET_VALUE="${{ secrets.SECRET }}"
+          VARIABLE_VALUE="${{ vars.VARIABLE }}"
 
-          echo "Custom secret (masked): ${C_SECRET:0:4}"
-          echo "Custom variable: $C_VARIABLE"
+          echo "Masked secret (bash): ${SECRET_VALUE:0:2}****"
+          echo "Variable value: $VARIABLE_VALUE"
 
-      - name: "Store values in GITHUB_OUTPUT from custom variables"
+      - name: "Store values in GITHUB_OUTPUT"
         id: step2
         run: |
-          echo "O_VAR=${{ vars.VARIABLE }}" >> $GITHUB_OUTPUT
-          echo "O_SECRET=${{ secrets.SECRET }}" >> $GITHUB_OUTPUT
-
-      - name: "Store values DIRECTLY in GITHUB_OUTPUT"
-        id: step3
-        run: |
-          echo "D_VAR=${{ vars.VARIABLE }}" >> $GITHUB_OUTPUT
-          echo "D_SECRET=${{ secrets.SECRET }}" >> $GITHUB_OUTPUT
-
-      - name: "PRINT ALL (job1)"
-        run: |
-          echo "O_VAR=$O_VAR"
-          echo "O_SECRET=$O_SECRET"
-          echo "D_VAR=$D_VAR"
-          echo "D_SECRET=$D_SECRET"
+          echo "O_VAR=${{ vars.VARIABLE }}" >> "$GITHUB_OUTPUT"
+          echo "O_SECRET=${{ secrets.SECRET }}" >> "$GITHUB_OUTPUT"
 
   job2:
-    name: "Access the secret and variable from job1 outputs"
+    name: "Consume outputs from job1"
     runs-on: ubuntu-latest
     needs: job1
 
     steps:
-      - name: "Access variables from OUTPUT job1"
+      - name: "Read outputs from job1"
         run: |
           echo "O_VAR=${{ needs.job1.outputs.O_VAR }}"
           echo "O_SECRET=${{ needs.job1.outputs.O_SECRET }}"
-          echo "D_VAR=${{ needs.job1.outputs.D_VAR }}"
-          echo "D_SECRET=${{ needs.job1.outputs.D_SECRET }}"
