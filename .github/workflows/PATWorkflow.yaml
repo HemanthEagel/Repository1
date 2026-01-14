@@ -29,7 +29,7 @@ jobs:
           C_SECRET="${{ secrets.SECRET }}"
           C_VARIABLE="${{ vars.VARIABLE }}"
 
-          echo "Custom secret (masked): ${C_SECRET:0:4}"
+          echo "Custom secret masked: ${C_SECRET:0:4}"
           echo "Custom variable: $C_VARIABLE"
 
       - name: "Store values in GITHUB_OUTPUT from custom variables"
