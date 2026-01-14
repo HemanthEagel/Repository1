@@ -49,6 +49,6 @@ jobs:
         run: |
           echo "Try to access Variable from dev env in job3: ${{ vars.VARIABLE }}"
           echo "Try to access Secret from dev env in job3: ${{ secrets.SECRET }}"
-
+          # we can see empty then appended *** 
           echo "Global variable Var from workflow in job3: ${GLOBAL_VARIABLE:0:4}*****"
           echo "Global variable Secret from workflow in job3: ${GLOBAL_SECRET:0:4}*****"
