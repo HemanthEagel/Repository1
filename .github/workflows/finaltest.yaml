@@ -1,0 +1,54 @@
+name: "Platform CD pass secrets via output"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  GLOBAL_VARIABLE: "${{ vars.VARIABLE }}"
+  GLOBAL_SECRET: "${{ secrets.SECRET }}"
+
+jobs:
+  print-all-vars-inputs:
+    name: "Print Variables and secrets from the dev Environment"
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: "Print Variable and Secret"
+        run: |
+          echo "Variable from dev env in job1: ${{ vars.VARIABLE }}"
+          echo "Secret from dev env in job1: ${{ secrets.SECRET }}"
+
+          echo "Global variable (Var) from workflow in job1: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable (Secret) from workflow in job1: ${GLOBAL_SECRET:0:4}*****"
+
+  job2:
+    name: "Access the secret and variable from global with needs"
+    runs-on: ubuntu-latest
+    needs: print-all-vars-inputs
+
+    steps:
+      - name: "Access variables from Global workflow with needs"
+        run: |
+          echo "Try to access Variable from dev env in job2: ${{ vars.VARIABLE }}"
+          echo "Try to access Secret from dev env in job2: ${{ secrets.SECRET }}"
+
+          echo "Global variable (Var) from workflow in job2: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable (Secret) from workflow in job2: ${GLOBAL_SECRET:0:4}*****"
+
+  job3:
+    name: "Access the secret and variable from global without needs"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Access variables from Global workflow without needs"
+        run: |
+          echo "Try to access Variable from dev env in job3: ${{ vars.VARIABLE }}"
+          echo "Try to access Secret from dev env in job3: ${{ secrets.SECRET }}"
+
+          echo "Global variable (Var) from workflow in job3: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable (Secret) from workflow in job3: ${GLOBAL_SECRET:0:4}*****"
