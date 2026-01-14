@@ -25,6 +25,7 @@ jobs:
     steps:
      - name: Job1 - Manual approval step
        run: |
+          sleep 30
           echo "Job1 running after manual approval"
           
      - name: Print global env variable
