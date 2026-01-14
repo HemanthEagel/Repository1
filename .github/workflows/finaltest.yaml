@@ -23,8 +23,8 @@ jobs:
           echo "Variable from dev env in job1: ${{ vars.VARIABLE }}"
           echo "Secret from dev env in job1: ${{ secrets.SECRET }}"
 
-          echo "Global variable (Var) from workflow in job1: ${GLOBAL_VARIABLE:0:4}*****"
-          echo "Global variable (Secret) from workflow in job1: ${GLOBAL_SECRET:0:4}*****"
+          echo "Global variable Var from workflow in job1: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable Secret from workflow in job1: ${GLOBAL_SECRET:0:4}*****"
 
   job2:
     name: "Access the secret and variable from global with needs"
@@ -37,8 +37,8 @@ jobs:
           echo "Try to access Variable from dev env in job2: ${{ vars.VARIABLE }}"
           echo "Try to access Secret from dev env in job2: ${{ secrets.SECRET }}"
 
-          echo "Global variable (Var) from workflow in job2: ${GLOBAL_VARIABLE:0:4}*****"
-          echo "Global variable (Secret) from workflow in job2: ${GLOBAL_SECRET:0:4}*****"
+          echo "Global variable Var from workflow in job2: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable Secret from workflow in job2: ${GLOBAL_SECRET:0:4}*****"
 
   job3:
     name: "Access the secret and variable from global without needs"
@@ -50,5 +50,5 @@ jobs:
           echo "Try to access Variable from dev env in job3: ${{ vars.VARIABLE }}"
           echo "Try to access Secret from dev env in job3: ${{ secrets.SECRET }}"
 
-          echo "Global variable (Var) from workflow in job3: ${GLOBAL_VARIABLE:0:4}*****"
-          echo "Global variable (Secret) from workflow in job3: ${GLOBAL_SECRET:0:4}*****"
+          echo "Global variable Var from workflow in job3: ${GLOBAL_VARIABLE:0:4}*****"
+          echo "Global variable Secret from workflow in job3: ${GLOBAL_SECRET:0:4}*****"
