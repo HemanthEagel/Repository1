@@ -8,9 +8,6 @@ env:
 
  
 jobs:
-  # -----------------------------
-  # Job 1: Manual approval
-  # -----------------------------
   job1:
     environment: test   # 🔒 requires manual approval
     runs-on: ubuntu-latest
