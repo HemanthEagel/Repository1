@@ -9,7 +9,7 @@ permissions:
 
 env:
   GLOBAL_VARIABLE: "${{ vars.VARIABLE }}"
-  GLOBAL_SECRET: "${{ secrets.SECRETS }}"
+  GLOBAL_SECRET: "${{ secrets.SECRET }}"
 
 jobs:
   print-all-vars-inputs:
