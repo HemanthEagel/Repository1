@@ -3,7 +3,7 @@ name: Sequential Jobs with Auto-Approve via PAT
 on:
   workflow_dispatch:
 env:
- KEY_VALUE: "${{ vars.VAR1}}
+ KEY_VALUE: ${{ vars.VAR1}}
  SECRET_VALUE: ${{ secrets.SECRET1 }}
 
  
