@@ -2,7 +2,11 @@ name: Sequential Jobs with Auto-Approve via PAT
 
 on:
   workflow_dispatch:
+env:
+ KEY_VALUE: "${{ vars.VAR1}}
+ SECRET_VALUE: ${{ secrets.SECRET1 }}
 
+ 
 jobs:
   # -----------------------------
   # Job 1: Manual approval
@@ -14,43 +18,9 @@ jobs:
       - name: Job1 - Manual approval step
         run: |
           echo "Job1 running after manual approval"
-
-  # -----------------------------
-  # Job 2: Actual work, waits for approval
-  # -----------------------------
-  job2:
-    needs: job1
-    environment: test   # Still protected
-    runs-on: ubuntu-latest
-    steps:
-      - name: Job2 main step
-        run: echo "Job2 running after auto-approval by Job3"
-  
-  # -----------------------------
-  # Job 3: PAT auto-approve for Job2
-  # -----------------------------
-  job3:
-    needs: job1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Auto-approve Job2 environment
-        env:
-          REPO_TOKEN: ${{ secrets.PAT_TOKEN }}
+          
+      - name: Print global env variable
         run: |
-          echo "Job3: Auto-approving environment look for aprovals"
-
-          # Get environment ID
-          ENV_ID=$(curl -s -H "Authorization: Bearer $REPO_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/environments \
-            | jq '.environments[] | select(.name=="test") | .id')
-
-          # Approve all pending deployments for this workflow run
-          curl -s -X POST \
-            -H "Authorization: Bearer $REPO_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"environment_ids\":[$ENV_ID],\"state\":\"approved\",\"comment\":\"Auto-approved via PAT\"}" \
-            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/pending_deployments
-
-            echo " the repository is "${{ github.repository }}"
-
-  
+          echo "KEY_VALUE = $KEY_VALUE"
+          echo "SECRET value = $SECRET_VALUE"
+          
