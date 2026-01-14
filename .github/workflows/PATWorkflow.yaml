@@ -13,7 +13,7 @@ env:
 jobs:
   job1:
     name: "Run on environment"
-    environment: dev
+    environment: test
     runs-on: ubuntu-latest
 
     outputs:
