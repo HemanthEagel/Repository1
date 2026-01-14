@@ -9,7 +9,7 @@ permissions:
 
 env:
   GLOBAL_VARIABLE: "${{ vars.VARIABLE }}"
-  GLOBAL_SECRET: "${{ secrets.SECRET }}"
+  GLOBAL_SECRET: "${{ secrets.SECRETS }}"
 
 jobs:
   print-all-vars-inputs:
@@ -24,7 +24,7 @@ jobs:
           echo "Secret from dev env in job1: ${{ secrets.SECRET }}"
 
           echo "Global variable Var from workflow in job1: ${GLOBAL_VARIABLE:0:4}*****"
-          echo "Global variable Secret from workflow in job1: ${GLOBAL_SECRET:0:4}*****"
+          echo "Global variable Secret from workflow in job1: ${GLOBAL_SECRETS:0:4}*****"
 
   job2:
     name: "Access the secret and variable from global with needs"
