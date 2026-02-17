@@ -1,0 +1,36 @@
+name: "test1"
+
+on:
+  workflow_dispatch:
+    inputs:
+      variables:
+        description: "Environment selection"
+        required: true
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  VARIABLE: "${{ vars.VARIABLE }}"
+
+jobs:
+  job1:
+    name: "Run on environment"
+    environment: ${{ inputs.action == 'prod' && 'prod2' || inputs.action }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide environment
+             
+        id: set-env
+        run: |
+          echo "Input action is the = ${{ inputs.action }}"
+
+
+  
