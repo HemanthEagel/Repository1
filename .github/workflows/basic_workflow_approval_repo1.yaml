@@ -54,38 +54,3 @@ jobs:
         run: |
           echo "the environment variable = ${{ vars.PROD2 }}"
           echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
-
-  job3:
-    name: job3 we given 
-    runs-on: ubuntu-latest
-    needs: [job2]
-    environment: prod2
-    steps:
-      - name: Print repository variables
-        run: |
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "the environment variable = ${{ vars.PROD2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"
-
-  job4:
-    name: job4 we given 
-    runs-on: ubuntu-latest
-    needs: [job2]
-    environment: prod2
-    steps:
-      - name: Print repository variables
-        run: |
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-      - name: Try printing secret (will be masked)
-        run: |
-          echo "the environment variable = ${{ vars.PROD2 }}"
-          echo "it is based on which enviroent this job is running = ${{ vars.ENV }}"      
-
