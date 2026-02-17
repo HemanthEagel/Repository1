@@ -19,6 +19,8 @@ env:
 
 jobs:
   job1:
+    if: inputs.action == 'prod'
+    environment: prod
     name: Resolve environment
     runs-on: ubuntu-latest
     steps:
