@@ -19,7 +19,7 @@ env:
 
 jobs:
   job1:
-    if: inputs.action !== 'prod'
+    if: inputs.action != 'prod'
     environment: prod
     name: Resolve environment
     runs-on: ubuntu-latest
@@ -40,11 +40,7 @@ jobs:
         id: set-env
         run: |
           echo "Input action is the = ${{ inputs.action }}"
-          echo " direct from secret the environment variable = ${{ vars.DEV }}"
-          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
-          echo "direct from secret the environment variable = ${{ vars.PROD }}"
-          echo "direct from secret the environment variable = ${{ env.CLUSTER_NAME }}"
+
 
           
          
