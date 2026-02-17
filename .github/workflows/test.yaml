@@ -1,9 +1,9 @@
-name: "test1"
+name: Basic 1 Variables Demo approval test
 
 on:
   workflow_dispatch:
     inputs:
-      variables:
+      action:
         description: "Environment selection"
         required: true
         type: choice
@@ -11,26 +11,26 @@ on:
           - dev
           - stage
           - prod
-
-permissions:
-  id-token: write
-  contents: read
-
+    
 env:
-  VARIABLE: "${{ vars.VARIABLE }}"
+  environment: ${{ inputs.action == 'prod' && 'prod2' || inputs.action }}
+  CLUSTER_NAME: aks-lgth-${{ inputs.action }}
+  RESOURCE_GROUP: "rg-lgt-${{ inputs.action }}"
 
 jobs:
   job1:
-    name: "Run on environment"
-    environment: ${{ inputs.action == 'prod' && 'prod2' || inputs.action }}
+    name: Resolve environment
     runs-on: ubuntu-latest
-
     steps:
       - name: Decide environment
              
         id: set-env
         run: |
           echo "Input action is the = ${{ inputs.action }}"
-
-
-  
+          echo " direct from secret the environment variable = ${{ vars.DEV }}"
+          echo "direct from secret the environment variable = ${{ vars.STAGE }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD2 }}"
+          echo "direct from secret the environment variable = ${{ vars.PROD }}"
+          echo "direct from secret the environment variable = ${{ env.CLUSTER_NAME }}"
+          
+         
